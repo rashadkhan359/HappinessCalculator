@@ -55,8 +55,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $activities=Activity::where('category_id', $id)->get();
-        return view('admin.activity.index', compact('activities'));
+        // $activities=Activity::where('category_id', $id)->get();
+        // return view('admin.activity.index', compact('activities'));
 
     }
 
@@ -67,7 +67,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $category=Category::where('id', $id)->first();
         return view('admin.category.edit', compact('category'));
     }
@@ -82,6 +82,7 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category=Category::where('id', $id)->first();
+
         Validator::make($request->all(), [
             'name' => ['required','string'],
         ])->validate();
@@ -102,4 +103,6 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('category.index')->with('success','Category deleted successfully!');
     }
+
+    
 }

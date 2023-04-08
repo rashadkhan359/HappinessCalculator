@@ -36,6 +36,7 @@ Route::get('/logout', [AuthenticateController::class, 'logout'])->name('admin.lo
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
     Route::view('dashboard', 'admin.dashboard')->name('admin.dashboard');
     Route::resource('user', CustomerController::class);
+    Route::post('change-status', [CustomerController::class, 'change_status'])->name('change_status');
     Route::resource('category', CategoryController::class);
     Route::resource('activity', ActivityController::class);
     Route::resource('transaction', TransactionController::class);

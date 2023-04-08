@@ -44,10 +44,12 @@
                                             @foreach ($icons as $icon)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $icon->name }}</td>
+                                                    <td>
+                                                        <img src= "{{ asset('/storage/'.($icon->file_name)) }}" width="100" height="100">
+                                                        </td>
                                                     <td>
                                                         <div class="row" style="width: fit-content">
-                                                            <div class="mx-3">
+                                                            {{-- <div class="mx-3">
                                                                 <a href="{{ route('icon.show', ['icon' => $icon]) }}"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fas fa-eye"></i></a>
@@ -56,12 +58,14 @@
                                                                 <a href="{{ route('icon.edit', ['icon' => $icon]) }}"
                                                                     class="btn btn-sm btn-info"><i
                                                                         class="fas fa-edit"></i></a>
-                                                            </div>
-                                                            <div class="mx-3">
-                                                                <a href="{{ route('icon.destroy', ['icon' => $icon]) }}"
-                                                                    class="btn btn-sm btn-danger"><i
-                                                                        class="fas fa-trash"></i></a>
-                                                            </div>
+                                                            </div> --}}
+
+                                                            <form action="{{ route('icon.destroy', ['icon' => $icon]) }}" method="POST" class="mx-3">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="btn btn-sm btn-danger"><a><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        </form>
+                                                            
                                                         </div>
                                                     </td>
                                                 </tr>

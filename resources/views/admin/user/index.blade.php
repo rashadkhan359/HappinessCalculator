@@ -48,11 +48,41 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $user->name }}</td>
                                                     <td>{{ $user->email }}</td>
+                                                    <td>
                                                     @if ($user->status == 1)
-                                                        <td><button class="btn btn-sm btn-success">Active</button></td>
+                                                        
+                                                            <a  id="status{{ $user->id }}" class="btn btn-success py-2 px-2">Active</a>
+                                                        
                                                     @else
-                                                        <td><button class="btn btn-sm btn-danger">In-Active</button></td>
+                                                        
+                                                            <a  id="status{{ $user->id }}" class="btn btn-danger py-2 px-2">In-Active</a>
+                                                        
                                                     @endif
+                                                    </td>
+                                                    <script>
+                                                    $(document).ready(function(){
+                                                    $("#status{{ $user->id }}").click(function(){
+                                                    var id = {{ $user->id }}
+                                                    $.ajax({
+                                                        url:'{{route("change_status")}}',
+                                                        method:'POST',
+                                                        data:{'id':id,'_token':"{{csrf_token()}}"},
+                                                        success:function(data){
+                                                            console.log(data)
+                                                            if(data==0){
+                                                                $("#status{{ $user->id }}").text('In-Active');
+                                                                $("#status{{ $user->id }}").css({'background-color':'#dc3545', 'border':'none'});
+                                                            }
+                                                            else{
+                                                                $("#status{{ $user->id }}").text('Active');
+                                                                $("#status{{ $user->id }}").css({'background-color':'#28a745', 'border':'none'});
+                                                            }
+                                                        }
+                                                    });
+                                                    });
+                                                    });
+                                                </script>
+
                                                     <td>
                                                         <div class="row" style="width: fit-content">
                                                             <div class="mx-3">
@@ -70,6 +100,7 @@
                                                                     class="btn btn-sm btn-danger"><i
                                                                         class="fas fa-trash"></i></a>
                                                             </div>
+                                                             
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -90,4 +121,22 @@
             <!-- /.container-fluid -->
         </section>
     </div>
+<script>
+    $(document).ready(function(){
+        $('#change_status').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/', 
+                type: 'POST',
+                success: function(data){
+                    console.log(data); // log the response to the console
+                    // do something with the response data here
+                },
+                error: function(data){
+                    console.log(data); // log any errors to the console
+                }
+            });
+        });
+    });
+</script>
 @endsection

@@ -133,7 +133,12 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('category.index') }}" class="nav-link">
-                            <p>Categories and Activites</p>
+                            <p>Categories</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('activity.index') }}" class="nav-link">
+                            <p>Activites</p>
                         </a>
                     </li>
                     <li class="nav-item">

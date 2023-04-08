@@ -31,6 +31,7 @@
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>
+                                            <th>Category</th>
                                             <th>Icon</th>
                                             <th>Name</th>
                                             <th>Color</th>
@@ -40,15 +41,19 @@
                                     <tbody>
                                         @if (count($activities) == 0)
                                             <tr>
-                                                <td colspan="5" style="color:red;">No Activity Found !!</td>
+                                                <td colspan="6" style="color:red;">No Activity Found !!</td>
                                             </tr>
                                         @else
                                             @foreach ($activities as $activity)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $activity->icon_id }}</td>
+                                                    <td>{{ $activity->category->name }}</td>
+                                                    <td>
+                                                        <img src="{{ asset('/storage/' . $activity->icon->path) }}"
+                                                            width="100" height="100">
+                                                    </td>
                                                     <td>{{ $activity->name }}</td>
-                                                    <td>{{ $activity->color_code }}</td>
+                                                    <td>#{{ $activity->color_code }}</td>
                                                     <td>
                                                         <div class="row" style="width: fit-content">
                                                             <div class="mx-3">
@@ -56,11 +61,13 @@
                                                                     class="btn btn-sm btn-info"><i
                                                                         class="fas fa-edit"></i></a>
                                                             </div>
-                                                            <div class="mx-3">
-                                                                <a href="{{ route('activity.destroy', ['activity' => $activity]) }}"
-                                                                    class="btn btn-sm btn-danger"><i
-                                                                        class="fas fa-trash"></i></a>
-                                                            </div>
+                                                                 <form action="{{ route('activity.destroy', ['activity' => $activity]) }}" method="POST" class="mx-3">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button class="btn btn-sm btn-danger"><a><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            </form>
+                                                            
+                                                           
                                                         </div>
                                                     </td>
                                                 </tr>
