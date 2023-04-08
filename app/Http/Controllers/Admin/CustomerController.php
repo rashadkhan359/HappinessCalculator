@@ -144,4 +144,17 @@ class CustomerController extends Controller
         $user->delete();
         return redirect()->back()->with('success','User deleted successfully!');
     }
+    public function change_status(Request $request){
+        $user=User::where('id', $request->id)->first();
+        if($user->status==1){
+            $user->status=0;
+            $user->save();
+            return response()->json(['status'=>true,'message'=>'User Deactivated Successfully!']);
+        }
+        else{
+            $user->status=1;
+            $user->save();
+            return response()->json(['status'=>true,'message'=>'User Activated Successfully!']);
+        }
+    }
 }

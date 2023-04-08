@@ -57,6 +57,49 @@
                                         </span>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="Category" >Category</label>
+                                    <select name="category" id="Category" class="form-control">
+                                    <option value="" selected>Select</option>
+                                    @foreach ( $data['category'] as  $category)
+                                        <option value="{{$category->id}}" >{{$category->name}}</option>
+                                    @endforeach
+                                    </select>
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="icons" >Icons</label>
+                                    <select name="icons" id="icons" class="form-control">
+                                    <option value="" selected>Select</option>
+                                    @foreach ( $data['icons'] as  $icon)
+                                        <option value="{{$icon->id}}">{{$icon->name}}</option>
+                                        
+                                        {{-- <option value="{{$icon->id}}">
+                                            <img src= "{{ asset('/storage/'.($icon->path)) }}" width="40" height="40">
+                                        </option> --}}
+                                    @endforeach
+                                    </select>
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="colorcode">Color Code</label>
+                                    <input type="text" id="colorcode" name="colorcode" class="form-control @error('name') is-invalid @enderror"  value="{{ old('name') }}" placeholder="Enter in Hexadecimal format">
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">

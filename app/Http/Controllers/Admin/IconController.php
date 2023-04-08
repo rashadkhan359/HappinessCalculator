@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Icon as ModelsIcon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class IconController extends Controller
 {
@@ -26,7 +27,7 @@ class IconController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.icon.create');
     }
 
     /**
@@ -37,7 +38,23 @@ class IconController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'name' => ['required', 'string'],
+            'image' => 'required',
+        ])->validate();
+            
+        if ($request->has('image')) {
+            $image_path = $request->file('image')->store('icons_imgs', 'public');
+            $image = explode('/', $image_path);
+        }
+
+        $icon=new ModelsIcon();
+        $icon->name=$request->name;
+        $icon->path= 'icons_imgs/'.$image[1];
+        $icon->file_name=$image_path;
+        $icon->save();
+
+        return redirect()->route('icon.index')->with('success','New icons added Successfully');
     }
 
     /**
@@ -80,8 +97,9 @@ class IconController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ModelsIcon $icon)
     {
-        //
+        $icon->delete();
+        return redirect()->route('icon.index')->with('success','Icon Deleted Successfully');
     }
 }

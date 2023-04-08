@@ -47,21 +47,22 @@
                                                     <td>{{ $category->name }}</td>
                                                     <td>
                                                         <div class="row" style="width: fit-content">
-                                                            <div class="mx-3">
+                                                            {{-- <div class="mx-3">
                                                                 <a href="{{ route('category.show', ['category' => $category]) }}"
                                                                     class="btn btn-sm btn-warning"><i
                                                                         class="fas fa-eye"></i></a>
-                                                            </div>
+                                                            </div> --}}
                                                             <div class="mx-3">
                                                                 <a href="{{ route('category.edit', ['category' => $category]) }}"
                                                                     class="btn btn-sm btn-info"><i
                                                                         class="fas fa-edit"></i></a>
                                                             </div>
-                                                            <div class="mx-3">
-                                                                <a href="{{ route('category.destroy', ['category' => $category]) }}"
-                                                                    class="btn btn-sm btn-danger"><i
-                                                                        class="fas fa-trash"></i></a>
-                                                            </div>
+                                                            <form action="{{ route('category.destroy', ['category' => $category]) }}" method="POST" class="mx-3 ">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button class="btn btn-sm btn-danger"><a><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            </form>
+                                                            
                                                         </div>
                                                     </td>
                                                 </tr>
