@@ -19,6 +19,8 @@ class CreateActivitiesTable extends Migration
             $table->unsignedBigInteger('icon_id')->nullable();
             $table->string('name');
             $table->string('color_code');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');

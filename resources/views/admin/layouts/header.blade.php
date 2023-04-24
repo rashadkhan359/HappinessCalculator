@@ -123,11 +123,13 @@
                     data-accordion="false">
                     <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('user.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
                             <p>Users</p>
                         </a>
                     </li>
@@ -148,16 +150,31 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('static_content.index') }}" class="nav-link">
+                             <i class="nav-icon fas fa-folder"></i>
                             <p>Static Content</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('icon.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-icons"></i>
                             <p>Icon</p>
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('contactus.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-address-book"></i>
+                            <p>Contact Us</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('contactdetails.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-address-book"></i>
+                            <p>Contact Details</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('admin.logout') }}" class="nav-link">
+                           <i class="nav-icon fas fa-arrow-right"></i>
                             <p>LogOut</p>
                         </a>
                     </li>
