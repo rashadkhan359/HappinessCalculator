@@ -1,0 +1,4 @@
+<?php
+return [
+    'token' => "AAAAnccXn9I:APA91bHKotCvmQBd7JH_VxilKsNxRiBKVDPRY0NUOJ7i9UnytRdCPLZdxYPBxgOeZ3qKL1J1fw4iGsD2Rr4kp4Wd2WnaQse5SgRUsHJMpeeDAJnasaDeRx6Zwg0GW1oTRTXOZXESmBK4",
+];

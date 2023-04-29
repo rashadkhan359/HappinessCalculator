@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\StaticContentController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContactusController;
-use App\Http\Controllers\Admin\ContactdetailsController;
+use App\Http\Controllers\Admin\ContactDetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +46,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
     Route::resource('transaction', TransactionController::class);
     Route::resource('static_content', StaticContentController::class);
     Route::resource('contactus',ContactusController::class);
-    Route::resource('contactdetails',ContactdetailsController::class);
+    Route::resource('contactdetails',ContactDetailsController::class);
     Route::resource('icon', IconController::class);
 });
 

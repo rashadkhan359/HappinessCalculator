@@ -43,7 +43,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/date-activity',[HomeController::class,'dateActivity'])->name('dateActivity');
     Route::post('/delete-activity',[ActivityController::class, 'DeleteActivity'])->name('deleteActivity');
     Route::get('/calendar',[HomeController::class,'calendar'])->name('calendar');
-
+    Route::get('trackscore',[HomeController::class,'trackscore'])->name('trackscore');
 
 
     Route::post('/contactUs',[ContactusController::class,'contactuspost'])->name('contactus');

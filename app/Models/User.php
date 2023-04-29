@@ -67,7 +67,7 @@ class User extends Authenticatable
     public function userdailyscore($date)
     {
         $score = 0;
-        $activities = $this->hasMany(UserDailyActivity::class)->whereDate('created_at', $date)->where('status',1)->get();
+        $activities = $this->hasMany(UserDailyActivity::class)->whereDate('created_at', $date)->where('status', 1)->get();
         foreach ($activities as $activity) {
             $score += $activity->score;
         }
@@ -135,14 +135,11 @@ class User extends Authenticatable
 
     public function userMonthlyData($date)
     {
-        $score = 0;
-        $count = 0;
-        $month = date('m', strtotime($date));
         $startDate = date("Y-m-d", strtotime(date("Y-m-d", strtotime($date)) . ", first day of this month"));
         $endDate = date("Y-m-t", strtotime(date("Y-m-d", strtotime($date)) . ", last day of this month"));
         $diff = date_diff(date_create($startDate), date_create($endDate));
         $data = [];
-        
+
         for ($i = 0; $i <= $diff->format("%a"); $i++) {
             $currentDate = date('Y-m-d', strtotime($startDate . "+" . $i . " days"));
             if ($currentDate <= date('Y-m-d')) {
@@ -171,35 +168,57 @@ class User extends Authenticatable
                     'total' => auth()->user()->userdailyactivitycount($currentDate) * 10,
                     'tasks_of_day' => $daily_activities
                 ];
-            } 
-            // else {
-            //     $weeklyactivities = UserWeeklyActivity::where('user_id', auth()->user()->id)->whereDate('created_at', $date)->get();
-            //     //dd($weeklyactivities);
-            //     foreach ($weeklyactivities as $weeklyactivity) {
-            //         if ($weeklyactivity->userActivity->name) {
-            //             $daily_activities[$weeklyactivity->userActivity->name] = [
-            //                 "start_time" => $weeklyactivity->start_time,
-            //                 "end_time" => $weeklyactivity->end_time,
-            //                 "icon" => $weeklyactivity->userActivity->icon,
-            //             ];
-            //         } else {
-            //             $name = $weeklyactivity->userActivity->adminactivities($weeklyactivity->userActivity->activity_id);
+            }
+        }
 
-            //             $daily_activities[$name['name']] = [
-            //                 "start_time" => $weeklyactivity->start_time,
-            //                 "end_time" => $weeklyactivity->end_time,
-            //                 "icon" => $weeklyactivity->userActivity->icon,
-            //             ];
-            //         }
-            //     }
-            //     $data[$currentDate] = [
-            //         'score' => auth()->user()->userdailyscore($currentDate),
-            //         'total' => auth()->user()->userdailyactivitycount($currentDate) * 10,
-            //         'tasks_of_day' => $daily_activities
-            //     ];
-            // }
-        }   
+        return $data;
+    }
 
+    public function trackscore($date)
+    {
+        $data['previous_daily_score'] = [];
+        $data['previous_weekly_score'] = [];
+        $data['previous_monthly_score'] = [];
+        //score for 3days
+        for ($i = 1; $i < 4; $i++) {
+            $currentDate = date('Y-m-d', strtotime($date . "-" . $i . " days"));
+            if ($currentDate > date('Y-m-d')) {
+                break;
+            }
+            $data['previous_daily_score'][$currentDate] = [
+                'day_score' => auth()->user()->userdailyscore($currentDate),
+                'total_day_score' => auth()->user()->userdailyactivitycount($currentDate) * 10,
+            ];
+        }
+        //score for 3weeks
+        for ($i = 0; $i < 3; $i++) {
+            $start=new DateTime($date);
+            $start->modify('-' . $i . ' week');
+            $start->modify('Monday this week');
+            $end = clone $start;
+            $end->modify('Sunday this week');
+            $week_start = $start->format('Y-m-d');
+            $week_end = $end->format('Y-m-d');
+            $data['previous_weekly_score'][$week_start] = [
+                'week_score' => auth()->user()->userWeeklyScore($week_start),
+                'total_week_score' => auth()->user()->getWeeklyCount() * 10,
+                'start_date' => $week_start,
+                'end_date' => $week_end,
+            ];
+        }
+        dd($data['previous_weekly_score']);
+        for ($i = 0; $i < 3; $i++) {
+            // Calculate the starting and ending dates of the month
+            $start_date = date('Y-m-01', strtotime('-' . ($i + 1) . ' month', strtotime($date)));
+            $end_date = date('Y-m-t', strtotime('-' . $i . ' month', strtotime($date)));
+
+            $data['previous_monthly_score'][date('F', strtotime($start_date))] = [
+                'month_score' => auth()->user()->userMonthlyScore($start_date),
+                'total_month_score' => auth()->user()->getMonthlyCount() * 10,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+            ];
+        }
         return $data;
     }
 }

@@ -260,4 +260,14 @@ class HomeController extends Controller
             'data' => $data,
         ], 200);
     }
+
+    public function trackscore(Request $request){
+        $user = auth()->user();
+        $date = $request->date;
+        $data = $user->trackscore($date);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data,
+        ], 200);
+    }
 }
