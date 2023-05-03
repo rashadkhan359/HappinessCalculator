@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-class TransactionController extends Controller
+use App\Models\contactdetails;
+class ContactDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('admin.transaction.index');
+        $details= contactdetails::first();
+        return view('admin.contactdetails.index',compact('details'));
     }
 
     /**
@@ -55,8 +57,9 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $details= contactdetails::where('id', $id)->first();
+        return view('admin.contactdetails.edit',compact('details'));
     }
 
     /**
@@ -67,8 +70,18 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {  
+        $details = contactdetails::find($id)->first();
+        $details->contact_email = $request->contact_email;
+        $details->contact_phone = $request->contact_phone;
+        $details->instagram_url = $request->instagram_url;
+        $details->facebook_url = $request->facebook_url;
+        $details->twitter_url = $request->twitter_url;
+        $details->linkedin_url = $request->linkedin_url;
+        $details->youtube_url = $request->youtube_url;
+        $details->website_url = $request->website_url;
+        $details->save();
+        return redirect()->route('contactdetails.index');
     }
 
     /**

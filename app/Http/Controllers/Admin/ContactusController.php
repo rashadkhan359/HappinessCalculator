@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ContactUs;
 
-class TransactionController extends Controller
+class ContactusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('admin.transaction.index');
+        $contactus=ContactUs::all();
+        return view('admin.contactus.index',compact('contactus'));
     }
 
     /**
