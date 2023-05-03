@@ -13,7 +13,7 @@ class Category extends Model
     ];
     public function activities()
     {
-        return $this->hasMany(Activity::class, 'category_id');
+        return $this->hasMany(Activity::class, 'activity_id');
     }
     
 }
