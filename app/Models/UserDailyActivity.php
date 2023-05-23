@@ -12,8 +12,7 @@ class UserDailyActivity extends Model
         'user_weekly_activity_id',
         'user_id',
         'status',
-        'start_time',
-        'end_time',
+        'hours_spent',
         'score'
     ];
     

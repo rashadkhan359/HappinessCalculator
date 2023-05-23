@@ -18,8 +18,7 @@ class CreateUserDailyActivitiesTable extends Migration
             $table->unsignedBigInteger('user_weekly_activity_id');
             $table->unsignedBigInteger('user_id');
             $table->boolean('status')->default(0);
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->varchar('hours_spent');
             $table->tinyInteger('score')->default(0);       
             $table->foreign('user_weekly_activity_id')->references('id')->on('user_weekly_activities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

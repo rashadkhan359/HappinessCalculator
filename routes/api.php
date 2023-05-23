@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\ContactusController;
 use App\Http\Controllers\Api\HomeController;
+use App\Models\Activity;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,10 @@ Route::post('/otp-resend',[AuthenticationController::class, 'otpResend'])->name(
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
 Route::post('/forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('/update-password',[AuthenticationController::class,'resetpassword'])->name('resetpassword');
-
+Route::get('/login/{provider}', [AuthenticationController::class, 'redirectToProvider'])->name('redirectToProvider');
+Route::get('/login/{provider}/redirect', [AuthenticationController::class, 'handleProviderCallback'])->name('handleProviderCallback');
+Route::get('/geticons', [ActivityController::class, 'geticons'])->name('geticons');
+Route::get('/admin-activites',[ActivityController::class, 'adminActivites'])->name('adminActivites');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
@@ -44,7 +48,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/delete-activity',[ActivityController::class, 'DeleteActivity'])->name('deleteActivity');
     Route::get('/calendar',[HomeController::class,'calendar'])->name('calendar');
     Route::get('trackscore',[HomeController::class,'trackscore'])->name('trackscore');
-
+   
 
     Route::post('/contactUs',[ContactusController::class,'contactuspost'])->name('contactus');
     Route::get('/contactdetails',[ContactusController::class,'contactdetails'])->name('contactdetails');

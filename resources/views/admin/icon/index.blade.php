@@ -32,13 +32,14 @@
                                         <tr>
                                             <th>S.No.</th>
                                             <th>Icon</th>
+                                            <th>Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (count($icons) == 0)
                                             <tr>
-                                                <td colspan="3" style="color:red;">No Category Found !!</td>
+                                                <td colspan="3" style="color:red;">No Icons Found !!</td>
                                             </tr>
                                         @else
                                             @foreach ($icons as $icon)
@@ -47,6 +48,7 @@
                                                     <td>
                                                         <img src= "{{ asset('/storage/'.($icon->file_name)) }}" width="100" height="100">
                                                         </td>
+                                                    <td>{{ $icon->name }}</td>
                                                     <td>
                                                         <div class="row" style="width: fit-content">
                                                             {{-- <div class="mx-3">

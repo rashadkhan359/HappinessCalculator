@@ -23,8 +23,8 @@ class UserActivity extends Model
     }
     
     public function adminactivities($activity_id)
-    {
-        $name=Activity::where('id',$activity_id)->select('name')->first();
+    {   
+        $name=Activity::where('id',$activity_id)->first();
         return $name;
     }
     

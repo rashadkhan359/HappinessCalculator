@@ -14,21 +14,14 @@ class ActivityController extends Controller
     public function addTask(Request $request)
     {
         $user = auth()->user();
-        if ($request->has('icon')) {
-            $image_path = $request->file('icon')->store('user_icons_imgs', 'public');
-            $image = explode('/', $image_path);
-        }
+        
         $useractivity = new UserActivity;
         $useractivity->user_id = $user->id;
-        $useractivity->category_id = $request->category_id;
+        $useractivity->category_id = $request->task_category;
         $useractivity->activity_id = $request->activity_id;
         $useractivity->name = $request->task_name;
         $useractivity->color_code = $request->color_code;
-        if ($request->has('icon')) {
-            $useractivity->icon = url('public/storage/user_icons_imgs/' . $image[1]);
-        } else {
-            $useractivity->icon = null;
-        }
+        $useractivity->icon_id= $request->icon_id;
         $useractivity->activity_id = $request->activity_id;
         $useractivity->save();
 
@@ -60,8 +53,7 @@ class ActivityController extends Controller
             'user_id' => $user->id,
             'status' => $request->is_task_completed,
             'score' => $request->after_task_feel,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
+            'hours_spent' => $request->hours_spent,
         ]);
         
         //firebase notification service for task completed
@@ -93,6 +85,31 @@ class ActivityController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Task deleted successfully',
+        ], 200);
+    }
+
+    public function geticons(){
+        $icons = \App\Models\Icon::all();
+        //dd($icons);
+        foreach($icons as $icon){
+            $icon->path=url('/public/storage/'.$icon->path);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Icons fetched successfully',
+            'data' => $icons,
+        ], 200);
+    }
+
+    public function adminActivites(){
+        $activities = \App\Models\Activity::all();
+
+        //$activities['icon'] = url('public/storage/'.$activities->icon->path);
+        //$activities['category'] = $activities->category;
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Admin Activities fetched successfully',
+            'data' => $activities,
         ], 200);
     }
 }

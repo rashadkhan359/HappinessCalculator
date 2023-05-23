@@ -93,7 +93,7 @@ class ActivityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $activity=Activity::find($id)->first();
+        $activity=Activity::find($id);
         $activity->name=$request->name;
         $activity->category_id=$request->category;
         $activity->icon_id= $request->icons;
