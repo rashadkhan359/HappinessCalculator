@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\UserActivity;
 use App\Http\Controllers\Controller;
+use App\Models\UserWeeklyActivity;
 use Illuminate\Http\Request;
 use App\Notifications\ActivityComplete;
 use Illuminate\Support\Facades\Notification;
@@ -61,7 +62,7 @@ class ActivityController extends Controller
             $user->fcm_token,
             $notification = [
                 'title' => 'You have completed your task',
-                'body' => 'Congrats! You have completed your ' . $activitydaily->userWeeklyActivity->userActivity->name . ' task',
+                'body' => 'Congrats! You have completed ' . $activitydaily->userWeeklyActivity->userActivity->name . ' task',
             ],
         );
 
@@ -110,6 +111,55 @@ class ActivityController extends Controller
             'status' => 'success',
             'message' => 'Admin Activities fetched successfully',
             'data' => $activities,
+        ], 200);
+    }
+
+    public function EditActivity(Request $request){
+        $user = auth()->user();
+        $activity = $user->useractivity()->where('id', $request->task_id)->first();
+        
+        if($request->has('activity_id')){
+            $activity->activity_id = $request->activity_id;
+            $activity->save();
+        }
+
+        if($request->has('task_name')){
+            $activity->name = $request->task_name;
+            $activity->save();
+        }
+        if($request->has('task_category')){
+            $activity->category_id = $request->task_category;
+            $activity->save();
+        }
+        if($request->has('color_code')){
+            $activity->color_code = $request->color_code;
+            $activity->save();
+        }
+        if($request->has('icon_id')){
+            $activity->icon_id = $request->icon_id;
+            $activity->save();
+        }
+        
+        $weekactivity = UserWeeklyActivity::where('user_id', $user->id)->where('user_activity_id', $request->task_id)->first();
+        
+
+        if($request->has('day')){
+            $weekactivity->day_id = $request->day;
+            $weekactivity->save();
+        }
+        if($request->has('start_time')){
+            $weekactivity->start_time = $request->start_time;
+            $weekactivity->save();
+        }
+        if($request->has('end_time')){
+            $weekactivity->end_time = $request->end_time;
+            $weekactivity->save();
+        }
+        
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Task updated successfully',
         ], 200);
     }
 }

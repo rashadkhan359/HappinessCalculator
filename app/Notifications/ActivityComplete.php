@@ -57,7 +57,9 @@ class ActivityComplete extends Notification
     {
         return [
             'user_id' => $this->user->id,
-            'message' => 'You have completed '.$this->activitydaily->userWeeklyActivity->useractivity->title.' task',
+            'title' => "Task Completed",
+            'icon_url' => 'https://securityoncalls.com/projects/HappinessCalculator/public/storage/icons_imgs/fJ5gXm0mJr5chxzMLweP2VyXtwJTINRkEpzdQyNz.png',
+            'message' => 'You have completed '.$this->activitydaily->userWeeklyActivity->useractivity->name.' task',
         ];
     }
 }
